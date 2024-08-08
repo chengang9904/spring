@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <div>bot 昵称：{{ bot_name }}</div>
-    <div>bot 战力：{{ bot_rating }}</div>
-  </div>
+  <NavBar />
+  <RouterView />
 </template>
 
 
 <script>
 import $ from "jquery"
 import { ref } from "vue"
+import NavBar from "./components/NavBar.vue";
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap"
+
 
 export default {
   name: "app",
@@ -24,12 +26,12 @@ export default {
         bot_rating.value = resp.version;
       }
     });
-
     return {
       bot_name,
       bot_rating
-    }
-  }
+    };
+  },
+  components: { NavBar }
 }
 </script>
 
