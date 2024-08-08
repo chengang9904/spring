@@ -22,6 +22,16 @@ export class GameMap extends AcGameObjects {
         ]
     }
 
+    check_ready() {   //判断两条蛇是否都准备好下一回合了
+        for (const snake of this.snakes) {
+            if (snake.status !== "idle")
+                return false;
+            if (snake.direction === -1)
+                return false;
+        }
+        return true;
+    }
+
     check_connectivity(g, sx, sy, ex, ey) {
         if (sx == ex && sy == ey) return true;
 
@@ -82,10 +92,29 @@ export class GameMap extends AcGameObjects {
         return true;
     }
 
+
+    add_listening_events() {
+        this.ctx.canvas.focus();
+
+        const [snake0, snake1] = this.snakes;
+        this.ctx.canvas.addEventListener("keydown", e => {
+            if (e.key === 'w') snake0.set_direction(0);
+            else if (e.key === 'd') snake0.set_direction(1);
+            else if (e.key === 's') snake0.set_direction(2);
+            else if (e.key === 'a') snake0.set_direction(3);
+            else if (e.key === 'ArrowUp') snake1.set_direction(0);
+            else if (e.key === 'ArrowRight') snake1.set_direction(1);
+            else if (e.key === 'ArrowDown') snake1.set_direction(2);
+            else if (e.key === 'ArrowLeft') snake1.set_direction(3);
+        });
+    }
+
     start() {
         for (let i = 0; i < 100; i++)
             if (this.create_walls())
                 break;
+
+        this.add_listening_events();
     }
 
     update_size() {
@@ -94,8 +123,17 @@ export class GameMap extends AcGameObjects {
         this.ctx.canvas.height = this.L * this.rows;
     }
 
+    next_step() {   //让两条蛇进入下一回合
+        for (const snake of this.snakes) {
+            snake.next_step();
+        }
+    }
+
     update() {
         this.update_size();
+        if (this.check_ready()) {
+            this.next_step();
+        }
         this.render();
     }
 
