@@ -1,12 +1,11 @@
 <template>
   <NavBar />
-  <RouterView />
+  <RouterView></RouterView>
 </template>
 
 
 <script>
 import $ from "jquery"
-import { ref } from "vue"
 import NavBar from "./components/NavBar.vue";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap"
@@ -15,21 +14,38 @@ import "bootstrap/dist/js/bootstrap"
 export default {
   name: "app",
   setup() {
-    let bot_name = ref('');
-    let bot_rating = ref('');
     $.ajax({
-      url: "http://127.0.0.1:30000/pk/getbotinfo/",
-      type: "get",
+      url: "http://127.0.0.1:3000/user/account/token/",
+      type: "post",
+      data: {
+        username: "admin",
+        password: "admin"
+      },
       success(resp) {
         console.log(resp);
-        bot_name.value = resp.name;
-        bot_rating.value = resp.version;
+      },
+      error(resp) {
+        console.log(resp);
       }
     });
+
+    $.ajax({
+      url: "http://127.0.0.1:3000/user/account/info/",
+      type: "get",
+      headers: {
+        Authorization: "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3ZmYxNzg4ZDhlOGQ0Nzc0OGQ2NDU4OGFkODRkNzJiMiIsInN1YiI6IjIiLCJpc3MiOiJzZyIsImlhdCI6MTcyMzIxNTQ2OCwiZXhwIjoxNzIzMzAxODY4fQ.uNTaT-n1Z0E9Y7p9BmaZ6UNIytwnPHIWEQEjuQbPgBQ"
+      },
+      success(resp) {
+        console.log(resp);
+      },
+      error(resp) {
+        console.log(resp);
+      }
+    });
+
     return {
-      bot_name,
-      bot_rating
     };
+
   },
   components: { NavBar }
 }
