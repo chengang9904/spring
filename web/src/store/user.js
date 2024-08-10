@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import router from '../router/index'
 
 export default {
     state: {
@@ -39,6 +40,7 @@ export default {
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
+                        localStorage.setItem("jwt_token", resp.token);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
                     } else {
@@ -74,7 +76,26 @@ export default {
             });
         },
         logout(context) {
+            localStorage.removeItem("jwt_token");
             context.commit("logout");
+        },
+        register(context, data) {
+            $.ajax({
+                url: "http://127.0.0.1:3000/user/account/register/",
+                type: 'post',
+                data: {
+                    username: data.username,
+                    password: data.password,
+                    confirmPassword: data.confirmPassword
+                },
+                success(resp) {
+                    data.success(resp);
+                    router.push({ name: "home" });
+                },
+                error(resp) {
+                    console.log(resp);
+                }
+            });
         }
     },
     modules: {
