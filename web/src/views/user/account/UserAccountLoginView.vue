@@ -50,7 +50,6 @@ export default {
 
     const jwt_token = localStorage.getItem("jwt_token");
     if (jwt_token) {
-      console.log("what");
       store.commit("updateToken", jwt_token);
       store.dispatch("getinfo", {
         success(resp) {
