@@ -65,8 +65,8 @@ public class UpdateServiceImpl implements UpdateService {
         bot.setContent(content);
         bot.setTitle(title);
         bot.setDescription(description);
-        botMapper.updateById(bot); 
-        result.put("error_message", "Bot content update");
+        botMapper.updateById(bot);
+        result.put("error_message", "success");
 
         return result;
     }

@@ -52,8 +52,7 @@ export default {
     if (jwt_token) {
       store.commit("updateToken", jwt_token);
       store.dispatch("getinfo", {
-        success(resp) {
-          console.log(resp);
+        success() {
           router.push({ name: "home" });
         },
         error() {
@@ -71,9 +70,8 @@ export default {
         password: password.value,
         success() {
           store.dispatch("getinfo", {
-            success(resp) {
+            success() {
               router.push({ name: "home" });
-              console.log(resp);
             },
             error(resp) {
               console.log(resp);
