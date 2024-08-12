@@ -5,33 +5,34 @@
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
-import {GameMap} from '@/assets/scripts/GameMap'
+import { ref, onMounted } from "vue";
+import { GameMap } from "@/assets/scripts/GameMap";
+import { useStore } from "vuex";
 
 export default {
-    name: "GameMap",
-    setup() {
-        const parent = ref(null);
-        const canvas = ref(null);
+  name: "GameMap",
+  setup() {
+    const parent = ref(null);
+    const canvas = ref(null);
+    const store = useStore();
 
-        onMounted(() => {
-            new GameMap(canvas.value.getContext('2d'), parent.value);
+    onMounted(() => {
+      new GameMap(canvas.value.getContext("2d"), parent.value, store);
+    });
 
-        });
-
-        return {
-            parent, 
-            canvas
-        }
-    }
-}
+    return {
+      parent,
+      canvas,
+    };
+  },
+};
 </script>
 <style>
 .gamemap {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
