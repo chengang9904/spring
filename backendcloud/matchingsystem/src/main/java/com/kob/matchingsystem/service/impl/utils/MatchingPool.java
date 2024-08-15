@@ -21,13 +21,14 @@ public class MatchingPool extends Thread {
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) { MatchingPool.restTemplate = restTemplate; }
 
-    public void addPlayer(Integer userId, Integer rating) {
+    public void addPlayer(Integer userId, Integer rating, Integer botId) {
         lock.lock();
         try {
             players.add(new Player(
                     userId,
                     rating,
-                    0
+                    0,
+                    botId
             ));
         } finally {
             lock.unlock();
@@ -62,6 +63,8 @@ public class MatchingPool extends Thread {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<String, String>();
         data.add("userIdA", String.valueOf(a.getUserId()));
         data.add("userIdB", String.valueOf(b.getUserId()));
+        data.add("botIdA", String.valueOf(a.getBotId()));
+        data.add("botIdB", String.valueOf(b.getBotId()));
         restTemplate.postForObject(startGameUrl, data, String.class);
     }
 

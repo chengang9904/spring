@@ -15,10 +15,12 @@ public class Player {
     private Integer sx;
     private Integer sy;
     private List<Integer> steps;
+    private Integer botId;      //-1表示人
+    private String botCode;
 
-    private boolean check_tail_increasing(int steps) {      // 检验当前回合是否会增加
-        if (steps <= 10) return true;
-        else return steps % 3 == 1;
+    private boolean check_tail_increasing(int step) {      // 检验当前回合是否会增加
+        if (step <= 10) return true;
+        else return step % 3 == 1;
     }
 
     public List<Cell> getCells() {
